@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+df = pd.read_csv(r'C:\Users\patid\Desktop\Python\Netflix.csv')
+print(df)
+df.head()
+
+'''sns.set(rc={'figure.figsize':(10,5)})
+df['Date'] = pd.to_datetime(df['Date'])
+df = df.set_index('Date')
+df.head()'''
+#VOLUME OF STOCK THREADED
+sns.lineplot(x = df['Date'], y = df['Volume'], label ='Volume' )
+plt.title("Volume of stock vs time")
+
+# NETFLIX STOCK PRICE - HIGH , LOW, OPEN 
+df.plot(y=['High','Low','Open'], title = 'Netflix Stock pricr detection')
+
+#
+fig, (ax1,ax2,ax3) = plt.subplots(3, figsize = (15,10))
+df.groupby(df.index.day).mean().plot(y = 'Volume',ax = ax1, xlabel= 'Day')
+df.groupby(df.index.month).mean().plot(y = 'Volume',ax = ax2, xlabel= 'Month')
+df.groupby(df.index.year).mean().plot(y = 'Volume',ax = ax3, xlabel= 'Year')
+
+
+# TOP 5 DATES WITH HIGHEST STOCK PRICE
+
+a = df.sort_values( by = 'High'   ,ascending = False).head(5)
+a['High']
+
+# TOP 5 DATES WITH LOWEST STOCK PRICE
+b = df.sort_values( by = 'Low',ascending = True).head(5)
+b['Low']
